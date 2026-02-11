@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { authApi } from '../api';
-import { LoginRequest, RegisterRequest, UserResponse } from '../types';
+import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import { authApi } from "../api";
+import type { LoginRequest, RegisterRequest, UserResponse } from "../types";
 
 interface AuthContextType {
   user: UserResponse | null;
@@ -24,7 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // On app load, verify token and get user data
   useEffect(() => {
     const verifyToken = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
       if (!token) {
         setIsLoading(false);
@@ -36,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(userData);
       } catch (error) {
         // Token invalid or expired - clear it
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
       } finally {
         setIsLoading(false);
       }
@@ -49,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const response = await authApi.login(data);
 
     // Save only token to localStorage
-    localStorage.setItem('token', response.token);
+    localStorage.setItem("token", response.token);
 
     // Store user data in memory (state)
     setUser({
@@ -57,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       name: response.name,
       email: response.email,
       enabled: true,
-      createdAt: '',
+      createdAt: "",
     });
   };
 
@@ -65,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const response = await authApi.register(data);
 
     // Save only token to localStorage
-    localStorage.setItem('token', response.token);
+    localStorage.setItem("token", response.token);
 
     // Store user data in memory (state)
     setUser({
@@ -73,12 +74,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       name: response.name,
       email: response.email,
       enabled: true,
-      createdAt: '',
+      createdAt: "",
     });
   };
 
   const logout = (): void => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
@@ -91,18 +92,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // Custom hook to use auth context
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
