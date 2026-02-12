@@ -6,7 +6,7 @@ export function Header() {
 
   return (
     <header className="header">
-      <Link to="/">Yoga Path</Link>
+      <Link to={isAuthenticated ? "/dashboard" : "/"}>Yoga Path</Link>
 
       <nav>
         {isAuthenticated ? (

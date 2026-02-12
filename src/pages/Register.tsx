@@ -1,30 +1,28 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context';
-import { ErrorMessage } from '../components/common';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context";
+import { ErrorMessage } from "../components/common";
+import type { RegisterRequest } from "../types";
 
 export function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { register } = useAuth();
+  const [error, setError] = useState("");
+  const { register: registerUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterRequest>();
 
+  const onSubmit = async (data: RegisterRequest) => {
+    setError("");
     try {
-      await register({ name, email, password });
-      navigate('/dashboard');
+      await registerUser(data);
+      navigate("/dashboard");
     } catch (err) {
-      setError('Registration failed. Email may already exist.');
-    } finally {
-      setIsLoading(false);
+      setError("Registration failed. Email may already exist.");
     }
   };
 
@@ -34,16 +32,25 @@ export function Register() {
 
       {error && <ErrorMessage message={error} />}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="name">Name</label>
           <input
             id="name"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
+            {...register("name", {
+              required: "Name is required",
+              minLength: {
+                value: 2,
+                message: "Name must be at least 2 characters",
+              },
+              maxLength: {
+                value: 100,
+                message: "Name must be less than 100 characters",
+              },
+            })}
           />
+          {errors.name && <span className="field-error">{errors.name.message}</span>}
         </div>
 
         <div>
@@ -51,10 +58,15 @@ export function Register() {
           <input
             id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && <span className="field-error">{errors.email.message}</span>}
         </div>
 
         <div>
@@ -62,15 +74,19 @@ export function Register() {
           <input
             id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
           />
+          {errors.password && <span className="field-error">{errors.password.message}</span>}
         </div>
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Registering...' : 'Register'}
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Registering..." : "Register"}
         </button>
       </form>
 
