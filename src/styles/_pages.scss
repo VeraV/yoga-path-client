@@ -73,17 +73,247 @@
 
 // Dashboard
 .dashboard-page {
-  h1 {
-    margin-bottom: $spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+
+    @media (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .dashboard-banner {
+    text-align: center;
+    padding: $spacing-xl 0 $spacing-2xl;
+
+    h1 {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      color: $color-accent;
+      font-size: $font-size-lg;
+      margin: 0;
+    }
+  }
+
+  .dashboard-card {
+    background: $color-white;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    box-shadow: $shadow;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-lg;
+      color: $color-accent;
+
+      svg {
+        flex-shrink: 0;
+      }
+
+      h2 {
+        font-size: $font-size-lg;
+        margin: 0;
+      }
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: $spacing-md;
+    }
+
+    .card-empty {
+      @include flex-center;
+      color: $color-accent;
+      text-align: center;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: $spacing-md;
+      background: $color-bg-section;
+      border-radius: $radius-md;
+      min-width: 80px;
+
+      .stat-value {
+        font-family: $font-heading;
+        font-size: $font-size-xl;
+        color: $color-primary;
+        font-weight: 600;
+      }
+
+      .stat-label {
+        font-size: $font-size-sm;
+        color: $color-accent;
+      }
+    }
+
+    .card-detail {
+      flex-basis: 100%;
+      font-size: $font-size-sm;
+      color: $color-text;
+      margin: 0;
+    }
+
+    .card-warning {
+      flex-basis: 100%;
+      font-size: $font-size-sm;
+      color: $color-cta;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .card-link {
+      margin-top: auto;
+      padding-top: $spacing-md;
+      border-top: 1px solid $color-bg-section;
+      font-weight: 600;
+      color: $color-primary;
+
+      &:hover {
+        color: $color-accent;
+      }
+    }
   }
 }
 
 // Profile page
 .profile-page {
-  max-width: 600px;
+  max-width: 900px;
+  margin: 0 auto;
 
-  form {
-    @include card;
+  .profile-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
+  }
+
+  .profile-group {
+    flex: 1;
+    min-width: 250px;
+    background: transparent;
+    border: 2px solid $color-bg-section;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+
+    legend {
+      font-family: $font-heading;
+      font-size: $font-size-lg;
+      color: $color-accent;
+      font-weight: 600;
+      padding: 0 $spacing-sm;
+    }
+
+    > div {
+      margin-bottom: $spacing-md;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .field-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    label {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .input-small {
+      width: 80px;
+      text-align: center;
+    }
+
+    .field-error {
+      flex-basis: 100%;
+    }
+  }
+
+  .profile-goals {
+    flex-basis: 100%;
+  }
+
+  .goals-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
+  .goal-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    background: $color-white;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background: $color-white;
+      box-shadow: $shadow;
+    }
+
+    input[type="checkbox"] {
+      accent-color: $color-primary;
+    }
+
+    span {
+      font-weight: 500;
+    }
+
+    // Tooltip on hover
+    &:hover::after {
+      content: attr(title);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: $color-accent;
+      color: $color-white;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-md;
+      font-size: $font-size-sm;
+      font-weight: 400;
+      white-space: nowrap;
+      z-index: 10;
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  button[type="submit"] {
+    display: block;
+    margin: 0 auto;
   }
 }
 

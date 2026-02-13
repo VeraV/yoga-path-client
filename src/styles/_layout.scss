@@ -13,45 +13,179 @@
   background: $color-white;
   padding: $spacing-md $spacing-lg;
   box-shadow: $shadow;
-  @include flex-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 
-  a:first-child {
+  .logo {
     font-family: $font-heading;
     font-size: $font-size-lg;
     color: $color-accent;
     font-weight: 600;
   }
 
+  // Hamburger - hidden on desktop
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: $spacing-sm;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: $color-accent;
+      transition: 0.2s ease;
+    }
+  }
+
+  // Mobile greeting - hidden on desktop
+  .greeting-mobile {
+    display: none;
+    color: $color-accent;
+    font-weight: 500;
+    font-size: $font-size-sm;
+  }
+
+  // Navigation
   nav {
     display: flex;
     align-items: center;
     gap: $spacing-md;
 
-    a {
-      color: $color-text;
-      font-weight: 500;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
 
-      &:hover {
-        color: $color-primary;
+      a {
+        color: $color-text;
+        font-weight: 500;
+
+        &:hover {
+          color: $color-primary;
+        }
       }
     }
 
-    span {
-      color: $color-accent;
-      font-weight: 500;
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      margin-left: $spacing-md;
+      padding-left: $spacing-md;
+      border-left: 1px solid $color-bg-section;
+
+      .greeting-desktop {
+        color: $color-accent;
+        font-weight: 500;
+      }
+
+      .logout-btn {
+        background: none;
+        border: none;
+        color: $color-text;
+        cursor: pointer;
+        padding: $spacing-sm;
+        display: flex;
+        align-items: center;
+        border-radius: $radius-md;
+        transition: 0.2s ease;
+
+        &:hover {
+          background: $color-bg-section;
+          color: $color-accent;
+        }
+      }
+    }
+  }
+
+  // Overlay - hidden by default
+  .nav-overlay {
+    display: none;
+  }
+}
+
+// Mobile styles
+@media (max-width: 768px) {
+  .header {
+    .hamburger {
+      display: flex;
+      order: 1;
     }
 
-    button {
-      background: none;
-      border: none;
-      color: $color-text;
-      font-family: $font-body;
-      font-size: $font-size-base;
-      cursor: pointer;
+    .logo {
+      order: 2;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-      &:hover {
-        color: $color-primary;
+    .greeting-mobile {
+      display: block;
+      order: 3;
+    }
+
+    .greeting-desktop {
+      display: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100vh;
+      background: $color-white;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: $spacing-xl $spacing-lg;
+      box-shadow: $shadow;
+      transition: left 0.3s ease;
+      z-index: 100;
+
+      &.open {
+        left: 0;
       }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: $spacing-sm;
+
+        a {
+          padding: $spacing-sm 0;
+          width: 100%;
+          font-size: $font-size-lg;
+        }
+      }
+
+      .nav-user {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        margin-top: auto;
+        padding-top: $spacing-lg;
+        border-top: 1px solid $color-bg-section;
+        width: 100%;
+      }
+    }
+
+    .nav-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
     }
   }
 }
@@ -60,5 +194,7 @@
 .main-content {
   flex: 1;
   padding: $spacing-xl $spacing-lg;
-  @include container;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }

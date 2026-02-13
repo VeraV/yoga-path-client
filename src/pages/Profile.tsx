@@ -114,80 +114,92 @@ export function Profile() {
       {successMessage && <p className="success">{successMessage}</p>}
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="weeklyMinutesAvailable">Weekly minutes available</label>
-          <input
-            id="weeklyMinutesAvailable"
-            type="number"
-            {...profile("weeklyMinutesAvailable", {
-              required: "Weekly minutes is required",
-              min: { value: 15, message: "Minimum 15 minutes" },
-              max: { value: 600, message: "Maximum 600 minutes" },
-              valueAsNumber: true,
-            })}
-          />
-          {errors.weeklyMinutesAvailable && (
-            <span className="field-error">{errors.weeklyMinutesAvailable.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="sessionsPerWeek">Sessions per week</label>
-          <input
-            id="sessionsPerWeek"
-            type="number"
-            {...profile("sessionsPerWeek", {
-              required: "Sessions per week is required",
-              min: { value: 1, message: "Minimum 1 session" },
-              max: { value: 7, message: "Maximum 7 sessions" },
-              valueAsNumber: true,
-            })}
-          />
-          {errors.sessionsPerWeek && (
-            <span className="field-error">{errors.sessionsPerWeek.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="dynamicPreference">Practice style preference</label>
-          <select id="dynamicPreference" {...profile("dynamicPreference")}>
-            <option value="NO_PREFERENCE">No preference</option>
-            <option value="DYNAMIC">Dynamic (more movement)</option>
-            <option value="STATIC">Static (holding poses)</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="structurePreference">Structure preference</label>
-          <select id="structurePreference" {...profile("structurePreference")}>
-            <option value="NO_PREFERENCE">No preference</option>
-            <option value="STRUCTURED">Structured (fixed sequences)</option>
-            <option value="CREATIVE">Creative (varied sequences)</option>
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="philosophyOpenness">Philosophy openness</label>
-          <select id="philosophyOpenness" {...profile("philosophyOpenness")}>
-            <option value="NO_PREFERENCE">No preference</option>
-            <option value="OPEN">Open to yoga philosophy</option>
-            <option value="NOT_OPEN">Focus on physical practice</option>
-          </select>
-        </div>
-
-        <fieldset>
-          <legend>Your Goals (select all that apply)</legend>
-          {goals.map((goal) => (
-            <label key={goal.id}>
+        <div className="profile-groups">
+          {/* Availability */}
+          <fieldset className="profile-group">
+            <legend>Availability</legend>
+            <div className="field-row">
+              <label htmlFor="weeklyMinutesAvailable">Weekly minutes</label>
               <input
-                type="checkbox"
-                checked={selectedGoalIds?.includes(goal.id) || false}
-                onChange={() => handleGoalToggle(goal.id)}
+                id="weeklyMinutesAvailable"
+                type="number"
+                className="input-small"
+                {...profile("weeklyMinutesAvailable", {
+                  required: "Required",
+                  min: { value: 15, message: "Min 15" },
+                  max: { value: 600, message: "Max 600" },
+                  valueAsNumber: true,
+                })}
               />
-              {goal.name} - {goal.description}
-            </label>
-          ))}
-        </fieldset>
+              {errors.weeklyMinutesAvailable && (
+                <span className="field-error">{errors.weeklyMinutesAvailable.message}</span>
+              )}
+            </div>
+            <div className="field-row">
+              <label htmlFor="sessionsPerWeek">Sessions per week</label>
+              <input
+                id="sessionsPerWeek"
+                type="number"
+                className="input-small"
+                {...profile("sessionsPerWeek", {
+                  required: "Required",
+                  min: { value: 1, message: "Min 1" },
+                  max: { value: 7, message: "Max 7" },
+                  valueAsNumber: true,
+                })}
+              />
+              {errors.sessionsPerWeek && (
+                <span className="field-error">{errors.sessionsPerWeek.message}</span>
+              )}
+            </div>
+          </fieldset>
+
+          {/* Preferences */}
+          <fieldset className="profile-group">
+            <legend>Preferences</legend>
+            <div>
+              <label htmlFor="dynamicPreference">Practice style</label>
+              <select id="dynamicPreference" {...profile("dynamicPreference")}>
+                <option value="NO_PREFERENCE">No preference</option>
+                <option value="DYNAMIC">Dynamic (more movement)</option>
+                <option value="STATIC">Static (holding poses)</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="structurePreference">Structure</label>
+              <select id="structurePreference" {...profile("structurePreference")}>
+                <option value="NO_PREFERENCE">No preference</option>
+                <option value="STRUCTURED">Structured (fixed sequences)</option>
+                <option value="CREATIVE">Creative (varied sequences)</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="philosophyOpenness">Philosophy</label>
+              <select id="philosophyOpenness" {...profile("philosophyOpenness")}>
+                <option value="NO_PREFERENCE">No preference</option>
+                <option value="OPEN">Open to yoga philosophy</option>
+                <option value="NOT_OPEN">Focus on physical practice</option>
+              </select>
+            </div>
+          </fieldset>
+
+          {/* Goals */}
+          <fieldset className="profile-group profile-goals">
+            <legend>Goals</legend>
+            <div className="goals-grid">
+              {goals.map((goal) => (
+                <label key={goal.id} className="goal-item" title={goal.description}>
+                  <input
+                    type="checkbox"
+                    checked={selectedGoalIds?.includes(goal.id) || false}
+                    onChange={() => handleGoalToggle(goal.id)}
+                  />
+                  <span>{goal.name}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting
