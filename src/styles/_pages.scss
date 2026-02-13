@@ -1,0 +1,147 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// Home page
+.home-page {
+  text-align: center;
+
+  .hero {
+    padding: $spacing-2xl 0;
+
+    .hero-logo {
+      margin-bottom: $spacing-lg;
+    }
+
+    h1 {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      max-width: 500px;
+      margin: 0 auto $spacing-md;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: $spacing-md;
+      margin-top: $spacing-xl;
+
+      a:first-child {
+        @include button-base;
+        background: $color-primary;
+        color: $color-white;
+      }
+
+      a:last-child {
+        @include button-base;
+        background: $color-bg-section;
+        color: $color-accent;
+      }
+    }
+  }
+
+  .features {
+    @include card;
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Auth pages (login, register)
+.login-page,
+.register-page {
+  max-width: 400px;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+  }
+
+  form {
+    @include card;
+  }
+
+  > p {
+    text-align: center;
+    margin-top: $spacing-lg;
+  }
+}
+
+// Dashboard
+.dashboard-page {
+  h1 {
+    margin-bottom: $spacing-xl;
+  }
+}
+
+// Profile page
+.profile-page {
+  max-width: 600px;
+
+  form {
+    @include card;
+  }
+}
+
+// Recommendations page
+.recommendations-page {
+  h2 {
+    margin-top: $spacing-xl;
+  }
+
+  > div {
+    @include card;
+    margin-bottom: $spacing-lg;
+  }
+
+  .recommendation-history {
+    background: $color-bg-section;
+  }
+}
+
+// Practice log page
+.practice-log-page {
+  max-width: 700px;
+
+  h2 {
+    margin-top: $spacing-xl;
+  }
+
+  form {
+    @include card;
+  }
+
+  .practice-log-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      @include card;
+      @include flex-between;
+      flex-wrap: wrap;
+      margin-bottom: $spacing-md;
+
+      p {
+        width: 100%;
+        margin-top: $spacing-sm;
+        color: $color-text;
+      }
+
+      button {
+        background: none;
+        border: none;
+        color: $color-error;
+        cursor: pointer;
+        font-size: $font-size-sm;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

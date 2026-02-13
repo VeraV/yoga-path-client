@@ -1,0 +1,64 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// Main layout wrapper
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header
+.header {
+  background: $color-white;
+  padding: $spacing-md $spacing-lg;
+  box-shadow: $shadow;
+  @include flex-between;
+
+  a:first-child {
+    font-family: $font-heading;
+    font-size: $font-size-lg;
+    color: $color-accent;
+    font-weight: 600;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    a {
+      color: $color-text;
+      font-weight: 500;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+
+    span {
+      color: $color-accent;
+      font-weight: 500;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: $color-text;
+      font-family: $font-body;
+      font-size: $font-size-base;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}
+
+// Main content area
+.main-content {
+  flex: 1;
+  padding: $spacing-xl $spacing-lg;
+  @include container;
+}
