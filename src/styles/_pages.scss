@@ -319,17 +319,149 @@
 
 // Recommendations page
 .recommendations-page {
-  h2 {
-    margin-top: $spacing-xl;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .generate-section {
+    text-align: center;
+    margin-bottom: $spacing-xl;
   }
 
-  > div {
-    @include card;
+  .btn-generate {
+    @include button-base;
+    background: $color-primary;
+    color: $color-white;
+  }
+
+  .recommendation-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+  }
+
+  .recommendation-group {
+    flex: 1;
+    min-width: 280px;
+    background: transparent;
+    border: 2px solid $color-bg-section;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+
+    legend {
+      font-family: $font-heading;
+      font-size: $font-size-lg;
+      color: $color-accent;
+      font-weight: 600;
+      padding: 0 $spacing-sm;
+    }
+  }
+
+  .session-total {
+    text-align: center;
     margin-bottom: $spacing-lg;
+
+    .total-value {
+      display: block;
+      font-family: $font-heading;
+      font-size: $font-size-2xl;
+      color: $color-primary;
+    }
+
+    .total-label {
+      font-size: $font-size-sm;
+      color: $color-accent;
+    }
+  }
+
+  .session-details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  .session-item {
+    display: flex;
+    justify-content: space-between;
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid $color-bg-section;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .item-label {
+      color: $color-text;
+    }
+
+    .item-value {
+      font-weight: 600;
+      color: $color-accent;
+    }
+  }
+
+  .recommendation-date {
+    margin-top: $spacing-lg;
+    font-size: $font-size-sm;
+    color: $color-accent;
+    text-align: center;
+  }
+
+  .recommendation-notes {
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    background: $color-bg-section;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    color: $color-accent;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .styles-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  .style-item {
+    h4 {
+      font-family: $font-heading;
+      font-size: $font-size-base;
+      color: $color-accent;
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      padding-left: $spacing-md;
+      font-size: $font-size-sm;
+      color: $color-text;
+      margin: 0;
+    }
   }
 
   .recommendation-history {
+    margin-top: $spacing-xl;
+    padding: $spacing-lg;
     background: $color-bg-section;
+    border-radius: $radius-lg;
+
+    h2 {
+      margin-top: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: $spacing-sm 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }
 

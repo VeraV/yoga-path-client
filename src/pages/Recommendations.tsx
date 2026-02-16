@@ -81,58 +81,103 @@ export function Recommendations() {
 
       {error && <ErrorMessage message={error} />}
 
+      {/* Warning when outdated */}
       {recommendation?.isOutdated && (
-        <div>
-          <p className="warning">
-            Your profile has been updated since these recommendations were
-            generated. Consider generating new recommendations.
-          </p>
-          <button onClick={handleGenerate} disabled={isGenerating}>
-            {isGenerating ? "Generating..." : "Generate Recommendations"}
+        <p className="warning">
+          Your profile has been updated since these recommendations were
+          generated. Consider generating new recommendations.
+        </p>
+      )}
+
+      {/* Message when no recommendations */}
+      {!recommendation && (
+        <p>No recommendations yet. Generate your personalized yoga plan!</p>
+      )}
+
+      {/* Button: show when no recommendation OR when outdated */}
+      {(!recommendation || recommendation.isOutdated) && (
+        <div className="generate-section">
+          <button
+            onClick={handleGenerate}
+            disabled={isGenerating}
+            className="btn-generate"
+          >
+            {isGenerating
+              ? "Generating..."
+              : recommendation
+                ? "Regenerate Recommendations"
+                : "Generate Recommendations"}
           </button>
         </div>
       )}
 
-      {!recommendation ? (
-        <div>
-          <p>No recommendations yet. Generate your personalized yoga plan!</p>
-          <button onClick={handleGenerate} disabled={isGenerating}>
-            {isGenerating ? "Generating..." : "Generate Recommendations"}
-          </button>
-        </div>
-      ) : (
-        <div>
-          <h2>Current Recommendation</h2>
-          <p>
-            <strong>Created:</strong>{" "}
-            {new Date(recommendation.createdAt).toLocaleDateString()}
-          </p>
+      {recommendation && (
+        <div className="recommendation-content">
+          {/* Left column - Session breakdown */}
+          <fieldset className="recommendation-group">
+            <legend>Session Breakdown</legend>
+            <p className="session-total">
+              <span className="total-value">
+                {recommendation.totalMinutesPerSession}
+              </span>
+              <span className="total-label">minutes per session</span>
+            </p>
+            <div className="session-details">
+              <div className="session-item">
+                <span className="item-label">Asana (exercises)</span>
+                <span className="item-value">
+                  {recommendation.asanaMinutes} min
+                </span>
+              </div>
+              <div className="session-item">
+                <span className="item-label">Pranayama (breathing)</span>
+                <span className="item-value">
+                  {recommendation.pranayamaMinutes} min
+                </span>
+              </div>
+              <div className="session-item">
+                <span className="item-label">Relaxation</span>
+                <span className="item-value">
+                  {recommendation.relaxationMinutes} min
+                </span>
+              </div>
+              <div className="session-item">
+                <span className="item-label">Meditation</span>
+                <span className="item-value">
+                  {recommendation.meditationMinutes} min
+                </span>
+              </div>
+              <div className="session-item">
+                <span className="item-label">Mantra</span>
+                <span className="item-value">
+                  {recommendation.mantraMinutes} min
+                </span>
+              </div>
+            </div>
+            <p className="recommendation-date">
+              Created: {new Date(recommendation.createdAt).toLocaleDateString()}
+            </p>
+            {recommendation.notes && (
+              <p className="recommendation-notes">{recommendation.notes}</p>
+            )}
+          </fieldset>
 
-          <h3>
-            Session Breakdown ({recommendation.totalMinutesPerSession} minutes)
-          </h3>
-          <ul>
-            <li>Asana (poses): {recommendation.asanaMinutes} min</li>
-            <li>
-              Pranayama (breathing): {recommendation.pranayamaMinutes} min
-            </li>
-            <li>Meditation: {recommendation.meditationMinutes} min</li>
-            <li>Relaxation: {recommendation.relaxationMinutes} min</li>
-            <li>Mantra: {recommendation.mantraMinutes} min</li>
-          </ul>
-
-          <h3>Recommended Yoga Styles</h3>
-          {recommendation.styles.length > 0 ? (
-            <ul>
-              {recommendation.styles.map((style) => (
-                <li key={style.id}>
-                  <strong>{style.name}</strong> - {style.description}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No specific styles recommended.</p>
-          )}
+          {/* Right column - Yoga styles */}
+          <fieldset className="recommendation-group">
+            <legend>Recommended Styles</legend>
+            {recommendation.styles.length > 0 ? (
+              <div className="styles-list">
+                {recommendation.styles.map((style) => (
+                  <div key={style.id} className="style-item">
+                    <h4>{style.name}</h4>
+                    <p>{style.notes}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No specific styles recommended.</p>
+            )}
+          </fieldset>
         </div>
       )}
 
