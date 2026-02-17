@@ -87,69 +87,87 @@ export function PracticeLog() {
 
       {error && <ErrorMessage message={error} />}
 
-      <h2>Log New Practice</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="practiceDate">Date</label>
-          <input
-            id="practiceDate"
-            type="date"
-            {...practiceLog("practiceDate", {
-              required: "Date is required",
-            })}
-          />
-          {errors.practiceDate && (
-            <span className="field-error">{errors.practiceDate.message}</span>
+      <div className="practice-log-content">
+        {/* Left column - Log new practice */}
+        <fieldset className="practice-log-group">
+          <legend>Log New Practice</legend>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="field-row">
+              <label htmlFor="practiceDate">Date</label>
+              <input
+                id="practiceDate"
+                type="date"
+                className="input-small"
+                {...practiceLog("practiceDate", {
+                  required: "Date is required",
+                })}
+              />
+              {errors.practiceDate && (
+                <span className="field-error">{errors.practiceDate.message}</span>
+              )}
+            </div>
+
+            <div className="field-row">
+              <label htmlFor="minutesPracticed">Minutes</label>
+              <input
+                id="minutesPracticed"
+                type="number"
+                className="input-small"
+                {...practiceLog("minutesPracticed", {
+                  required: "Minutes is required",
+                  min: { value: 1, message: "Minimum 1 minute" },
+                  max: { value: 300, message: "Maximum 300 minutes" },
+                  valueAsNumber: true,
+                })}
+              />
+              {errors.minutesPracticed && (
+                <span className="field-error">{errors.minutesPracticed.message}</span>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="notes">Notes (optional)</label>
+              <textarea
+                id="notes"
+                rows={3}
+                {...practiceLog("notes")}
+              />
+            </div>
+
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Adding..." : "Add Entry"}
+            </button>
+          </form>
+        </fieldset>
+
+        {/* Right column - Practice history */}
+        <fieldset className="practice-log-group">
+          <legend>Practice History</legend>
+          {logs.length === 0 ? (
+            <p className="empty-message">No practice sessions logged yet. Start tracking your yoga journey!</p>
+          ) : (
+            <div className="practice-log-list">
+              {logs.map((log) => (
+                <div key={log.id} className="log-item">
+                  <div className="log-header">
+                    <span className="log-date">
+                      {new Date(log.practiceDate).toLocaleDateString()}
+                    </span>
+                    <span className="log-minutes">{log.minutesPracticed} min</span>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(log.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  {log.notes && <p className="log-notes">{log.notes}</p>}
+                </div>
+              ))}
+            </div>
           )}
-        </div>
-
-        <div>
-          <label htmlFor="minutesPracticed">Minutes practiced</label>
-          <input
-            id="minutesPracticed"
-            type="number"
-            {...practiceLog("minutesPracticed", {
-              required: "Minutes is required",
-              min: { value: 1, message: "Minimum 1 minute" },
-              max: { value: 300, message: "Maximum 300 minutes" },
-              valueAsNumber: true,
-            })}
-          />
-          {errors.minutesPracticed && (
-            <span className="field-error">{errors.minutesPracticed.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="notes">Notes (optional)</label>
-          <textarea
-            id="notes"
-            rows={3}
-            {...practiceLog("notes")}
-          />
-        </div>
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Adding..." : "Add Entry"}
-        </button>
-      </form>
-
-      <h2>Your Practice History</h2>
-      {logs.length === 0 ? (
-        <p>No practice sessions logged yet. Start tracking your yoga journey!</p>
-      ) : (
-        <ul className="practice-log-list">
-          {logs.map((log) => (
-            <li key={log.id}>
-              <strong>{new Date(log.practiceDate).toLocaleDateString()}</strong>
-              {" - "}
-              {log.minutesPracticed} minutes
-              {log.notes && <p>{log.notes}</p>}
-              <button onClick={() => handleDelete(log.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      )}
+        </fieldset>
+      </div>
     </div>
   );
 }

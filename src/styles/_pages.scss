@@ -467,43 +467,120 @@
 
 // Practice log page
 .practice-log-page {
-  max-width: 700px;
+  max-width: 900px;
+  margin: 0 auto;
 
-  h2 {
-    margin-top: $spacing-xl;
+  .practice-log-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
   }
 
-  form {
-    @include card;
+  .practice-log-group {
+    flex: 1;
+    min-width: 280px;
+    background: transparent;
+    border: 2px solid $color-bg-section;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+
+    legend {
+      font-family: $font-heading;
+      font-size: $font-size-lg;
+      color: $color-accent;
+      font-weight: 600;
+      padding: 0 $spacing-sm;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-md;
+
+      button[type="submit"] {
+        margin-top: $spacing-sm;
+      }
+    }
+  }
+
+  .field-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    label {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .input-small {
+      width: 120px;
+      text-align: center;
+    }
+
+    .field-error {
+      flex-basis: 100%;
+    }
+  }
+
+  .empty-message {
+    color: $color-accent;
+    text-align: center;
+    padding: $spacing-lg;
   }
 
   .practice-log-list {
-    list-style: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-    li {
-      @include card;
-      @include flex-between;
-      flex-wrap: wrap;
-      margin-bottom: $spacing-md;
+  .log-item {
+    padding: $spacing-sm $spacing-md;
+    border-bottom: 1px solid $color-bg-section;
 
-      p {
-        width: 100%;
-        margin-top: $spacing-sm;
-        color: $color-text;
-      }
-
-      button {
-        background: none;
-        border: none;
-        color: $color-error;
-        cursor: pointer;
-        font-size: $font-size-sm;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
+    &:last-child {
+      border-bottom: none;
     }
+  }
+
+  .log-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  .log-date {
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  .log-minutes {
+    font-weight: 600;
+    color: $color-accent;
+  }
+
+  .btn-delete {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: $color-error;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    padding: $spacing-sm;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .log-notes {
+    margin: $spacing-sm 0 0;
+    padding-left: $spacing-md;
+    font-size: $font-size-sm;
+    color: $color-accent;
+    font-style: italic;
   }
 }
