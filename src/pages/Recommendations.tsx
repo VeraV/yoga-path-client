@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context";
 import { profileApi, recommendationApi } from "../api";
-import { Loading, ErrorMessage } from "../components/common";
+import { Loading, ErrorMessage, LimitationsModal } from "../components/common";
 import type { YogaProfileResponse, YogaRecommendationResponse } from "../types";
 
 export function Recommendations() {
@@ -14,6 +14,7 @@ export function Recommendations() {
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState("");
+  const [showLimitations, setShowLimitations] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,9 +78,45 @@ export function Recommendations() {
 
   return (
     <div className="recommendations-page">
-      <h1>Your Yoga Recommendations</h1>
+      <div className="recommendations-header">
+        <h1>Your Yoga Recommendations</h1>
+        <button
+          className="btn-secondary"
+          onClick={() => setShowLimitations(true)}
+        >
+          Health Considerations
+        </button>
+      </div>
+
+      <p className="health-notice">
+        Some health conditions may require practice modifications. Please review
+        this list and consult your teacher or healthcare provider when
+        necessary.
+      </p>
+
+      {showLimitations && (
+        <LimitationsModal onClose={() => setShowLimitations(false)} />
+      )}
 
       {error && <ErrorMessage message={error} />}
+
+      {/* Warning when session time is too short to fit all minimums */}
+      {recommendation &&
+        profile &&
+        (() => {
+          const expected = Math.floor(
+            profile.weeklyMinutesAvailable / profile.sessionsPerWeek,
+          );
+          console.log(
+            `expected: ${expected}, recommendation.totalMinutesPerSession: ${recommendation.totalMinutesPerSession}`,
+          );
+          return recommendation.totalMinutesPerSession > expected;
+        })() && (
+          <p className="warning">
+            Your session time is too short to fit all recommended minimums.
+            Consider increasing your available time per session.
+          </p>
+        )}
 
       {/* Warning when outdated */}
       {recommendation?.isOutdated && (
@@ -157,8 +194,15 @@ export function Recommendations() {
             <p className="recommendation-date">
               Created: {new Date(recommendation.createdAt).toLocaleDateString()}
             </p>
-            {recommendation.notes && (
-              <p className="recommendation-notes">{recommendation.notes}</p>
+            {profile.goals.length > 0 && (
+              <div className="styles-list">
+                {profile.goals.map((goal) => (
+                  <div key={goal.id} className="style-item">
+                    <h4>{goal.name}</h4>
+                    {goal.notes && <p>{goal.notes}</p>}
+                  </div>
+                ))}
+              </div>
             )}
           </fieldset>
 

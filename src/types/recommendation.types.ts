@@ -15,7 +15,6 @@ export interface YogaRecommendationResponse {
   mantraMinutes: number;
   totalMinutesPerSession: number;
   styles: YogaStyle[];
-  notes: string | null;
   isOutdated: boolean;
   createdAt: string;
 }

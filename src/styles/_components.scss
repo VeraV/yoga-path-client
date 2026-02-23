@@ -122,6 +122,98 @@ fieldset {
   margin-bottom: $spacing-md;
 }
 
+// Modal
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: $spacing-md;
+}
+
+.modal {
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 720px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 2px solid $color-bg-section;
+  flex-shrink: 0;
+
+  h2 {
+    margin: 0;
+    font-family: $font-heading;
+    color: $color-accent;
+  }
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: $font-size-lg;
+  color: $color-text;
+  cursor: pointer;
+  padding: $spacing-sm;
+  line-height: 1;
+  border-radius: $radius-md;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: $color-bg-section;
+  }
+}
+
+.modal-body {
+  padding: $spacing-lg;
+  overflow-y: auto;
+}
+
+.limitations-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  td {
+    padding: $spacing-sm $spacing-md;
+    vertical-align: top;
+    border-bottom: 1px solid $color-bg-section;
+    font-size: $font-size-sm;
+  }
+
+  .col-name {
+    font-weight: 600;
+    color: $color-accent;
+    width: 25%;
+  }
+
+  .col-description {
+    color: $color-text;
+    width: 40%;
+  }
+
+  .col-notes {
+    color: $color-text;
+    font-style: italic;
+    width: 35%;
+  }
+}
+
 // Loading
 .loading {
   @include flex-center;
