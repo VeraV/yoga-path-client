@@ -203,31 +203,15 @@
 
 // Profile page
 .profile-page {
-  max-width: 900px;
-  margin: 0 auto;
+  @include page-container;
 
   .profile-groups {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $spacing-lg;
+    @include flex-wrap-layout;
     margin-bottom: $spacing-xl;
   }
 
   .profile-group {
-    flex: 1;
-    min-width: 250px;
-    background: transparent;
-    border: 2px solid $color-bg-section;
-    border-radius: $radius-lg;
-    padding: $spacing-lg;
-
-    legend {
-      font-family: $font-heading;
-      font-size: $font-size-lg;
-      color: $color-accent;
-      font-weight: 600;
-      padding: 0 $spacing-sm;
-    }
+    @include fieldset-group(250px);
 
     > div {
       margin-bottom: $spacing-md;
@@ -239,22 +223,11 @@
   }
 
   .field-row {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-
-    label {
-      flex: 1;
-      margin-bottom: 0;
-    }
+    @include field-row;
 
     .input-small {
       width: 80px;
       text-align: center;
-    }
-
-    .field-error {
-      flex-basis: 100%;
     }
   }
 
@@ -319,13 +292,10 @@
 
 // Recommendations page
 .recommendations-page {
-  max-width: 900px;
-  margin: 0 auto;
+  @include page-container;
 
   .recommendations-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex-between;
     flex-wrap: wrap;
     gap: $spacing-md;
     margin-bottom: $spacing-sm;
@@ -353,26 +323,22 @@
   }
 
   .recommendation-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $spacing-lg;
+    @include flex-wrap-layout;
   }
 
   .recommendation-group {
-    flex: 1;
-    min-width: 280px;
-    background: transparent;
-    border: 2px solid $color-bg-section;
-    border-radius: $radius-lg;
-    padding: $spacing-lg;
+    @include fieldset-group(280px);
 
-    legend {
-      font-family: $font-heading;
-      font-size: $font-size-lg;
-      color: $color-accent;
-      font-weight: 600;
-      padding: 0 $spacing-sm;
+    &--full {
+      flex-basis: 100%;
     }
+  }
+
+  .group-description {
+    font-size: $font-size-sm;
+    color: $color-accent;
+    margin-bottom: $spacing-lg;
+    font-style: italic;
   }
 
   .session-total {
@@ -425,17 +391,6 @@
     text-align: center;
   }
 
-  .recommendation-notes {
-    margin-top: $spacing-md;
-    padding: $spacing-md;
-    background: $color-bg-section;
-    border-radius: $radius-md;
-    font-size: $font-size-sm;
-    color: $color-accent;
-    font-style: italic;
-    text-align: center;
-  }
-
   .styles-list {
     display: flex;
     flex-direction: column;
@@ -475,7 +430,7 @@
 
     li {
       padding: $spacing-sm 0;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
       &:last-child {
         border-bottom: none;
@@ -486,30 +441,14 @@
 
 // Practice log page
 .practice-log-page {
-  max-width: 900px;
-  margin: 0 auto;
+  @include page-container;
 
   .practice-log-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $spacing-lg;
+    @include flex-wrap-layout;
   }
 
   .practice-log-group {
-    flex: 1;
-    min-width: 280px;
-    background: transparent;
-    border: 2px solid $color-bg-section;
-    border-radius: $radius-lg;
-    padding: $spacing-lg;
-
-    legend {
-      font-family: $font-heading;
-      font-size: $font-size-lg;
-      color: $color-accent;
-      font-weight: 600;
-      padding: 0 $spacing-sm;
-    }
+    @include fieldset-group(280px);
 
     form {
       display: flex;
@@ -523,22 +462,11 @@
   }
 
   .field-row {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-
-    label {
-      flex: 1;
-      margin-bottom: 0;
-    }
+    @include field-row;
 
     .input-small {
       width: 120px;
       text-align: center;
-    }
-
-    .field-error {
-      flex-basis: 100%;
     }
   }
 

@@ -194,16 +194,6 @@ export function Recommendations() {
             <p className="recommendation-date">
               Created: {new Date(recommendation.createdAt).toLocaleDateString()}
             </p>
-            {profile.goals.length > 0 && (
-              <div className="styles-list">
-                {profile.goals.map((goal) => (
-                  <div key={goal.id} className="style-item">
-                    <h4>{goal.name}</h4>
-                    {goal.notes && <p>{goal.notes}</p>}
-                  </div>
-                ))}
-              </div>
-            )}
           </fieldset>
 
           {/* Right column - Yoga styles */}
@@ -222,6 +212,24 @@ export function Recommendations() {
               <p>No specific styles recommended.</p>
             )}
           </fieldset>
+
+          {profile.goals.length > 0 && (
+            <fieldset className="recommendation-group recommendation-group--full">
+              <legend>Beyond the Mat</legend>
+              <p className="group-description">
+                Here are some ideas to support your goals — to fill in your
+                yoga practice and beyond that time on a mat.
+              </p>
+              <div className="styles-list">
+                {profile.goals.map((goal) => (
+                  <div key={goal.id} className="style-item">
+                    <h4>{goal.name}</h4>
+                    {goal.notes && <p>{goal.notes}</p>}
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          )}
         </div>
       )}
 

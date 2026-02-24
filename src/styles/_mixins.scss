@@ -28,6 +28,53 @@
   justify-content: space-between;
 }
 
+// Page-level container (narrower than global container, no padding)
+@mixin page-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+// Fieldset card used across profile, recommendations, and practice log
+@mixin fieldset-group($min-width: 280px) {
+  flex: 1;
+  min-width: $min-width;
+  background: transparent;
+  border: 2px solid $color-bg-section;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+
+  legend {
+    font-family: $font-heading;
+    font-size: $font-size-lg;
+    color: $color-accent;
+    font-weight: 600;
+    padding: 0 $spacing-sm;
+  }
+}
+
+// Wrapping flex layout for multi-column sections
+@mixin flex-wrap-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
+}
+
+// Inline field row with label and small input
+@mixin field-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  label {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .field-error {
+    flex-basis: 100%;
+  }
+}
+
 // Button base styles
 @mixin button-base {
   display: inline-block;
