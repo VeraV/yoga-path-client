@@ -21,7 +21,7 @@ export function Login() {
     try {
       await login(data);
       navigate("/dashboard");
-    } catch (err) {
+    } catch (_err) {
       setError("Invalid email or password");
     }
   };
@@ -46,7 +46,9 @@ export function Login() {
               },
             })}
           />
-          {errors.email && <span className="field-error">{errors.email.message}</span>}
+          {errors.email && (
+            <span className="field-error">{errors.email.message}</span>
+          )}
         </div>
 
         <div>
@@ -62,7 +64,9 @@ export function Login() {
               },
             })}
           />
-          {errors.password && <span className="field-error">{errors.password.message}</span>}
+          {errors.password && (
+            <span className="field-error">{errors.password.message}</span>
+          )}
         </div>
 
         <button type="submit" disabled={isSubmitting}>

@@ -21,7 +21,7 @@ export function Register() {
     try {
       await registerUser(data);
       navigate("/dashboard");
-    } catch (err) {
+    } catch (_err) {
       setError("Registration failed. Email may already exist.");
     }
   };
@@ -50,7 +50,9 @@ export function Register() {
               },
             })}
           />
-          {errors.name && <span className="field-error">{errors.name.message}</span>}
+          {errors.name && (
+            <span className="field-error">{errors.name.message}</span>
+          )}
         </div>
 
         <div>
@@ -66,7 +68,9 @@ export function Register() {
               },
             })}
           />
-          {errors.email && <span className="field-error">{errors.email.message}</span>}
+          {errors.email && (
+            <span className="field-error">{errors.email.message}</span>
+          )}
         </div>
 
         <div>
@@ -82,7 +86,9 @@ export function Register() {
               },
             })}
           />
-          {errors.password && <span className="field-error">{errors.password.message}</span>}
+          {errors.password && (
+            <span className="field-error">{errors.password.message}</span>
+          )}
         </div>
 
         <button type="submit" disabled={isSubmitting}>

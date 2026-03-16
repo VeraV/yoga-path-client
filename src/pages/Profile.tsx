@@ -10,7 +10,9 @@ type ProfileFormData = Omit<YogaProfileRequest, "userId">;
 export function Profile() {
   const { user } = useAuth();
 
-  const [profileData, setProfileData] = useState<YogaProfileResponse | null>(null);
+  const [profileData, setProfileData] = useState<YogaProfileResponse | null>(
+    null,
+  );
   const [goals, setGoals] = useState<Goal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -59,7 +61,7 @@ export function Profile() {
             goalIds: fetchedProfile.goals.map((g) => g.id),
           });
         }
-      } catch (err) {
+      } catch (_err) {
         setError("Failed to load profile data");
       } finally {
         setIsLoading(false);
@@ -97,7 +99,7 @@ export function Profile() {
         setProfileData(created);
       }
       setSuccessMessage("Profile saved successfully!");
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to save profile");
     }
   };
@@ -132,7 +134,9 @@ export function Profile() {
                 })}
               />
               {errors.weeklyMinutesAvailable && (
-                <span className="field-error">{errors.weeklyMinutesAvailable.message}</span>
+                <span className="field-error">
+                  {errors.weeklyMinutesAvailable.message}
+                </span>
               )}
             </div>
             <div className="field-row">
@@ -149,7 +153,9 @@ export function Profile() {
                 })}
               />
               {errors.sessionsPerWeek && (
-                <span className="field-error">{errors.sessionsPerWeek.message}</span>
+                <span className="field-error">
+                  {errors.sessionsPerWeek.message}
+                </span>
               )}
             </div>
           </fieldset>
@@ -167,7 +173,10 @@ export function Profile() {
             </div>
             <div>
               <label htmlFor="structurePreference">Structure</label>
-              <select id="structurePreference" {...profile("structurePreference")}>
+              <select
+                id="structurePreference"
+                {...profile("structurePreference")}
+              >
                 <option value="NO_PREFERENCE">No preference</option>
                 <option value="STRUCTURED">Structured (fixed sequences)</option>
                 <option value="CREATIVE">Creative (varied sequences)</option>
@@ -175,7 +184,10 @@ export function Profile() {
             </div>
             <div>
               <label htmlFor="philosophyOpenness">Philosophy</label>
-              <select id="philosophyOpenness" {...profile("philosophyOpenness")}>
+              <select
+                id="philosophyOpenness"
+                {...profile("philosophyOpenness")}
+              >
                 <option value="NO_PREFERENCE">No preference</option>
                 <option value="OPEN">Open to yoga philosophy</option>
                 <option value="NOT_OPEN">Focus on physical practice</option>
@@ -188,7 +200,11 @@ export function Profile() {
             <legend>Goals</legend>
             <div className="goals-grid">
               {goals.map((goal) => (
-                <label key={goal.id} className="goal-item" title={goal.description}>
+                <label
+                  key={goal.id}
+                  className="goal-item"
+                  title={goal.description}
+                >
                   <input
                     type="checkbox"
                     checked={selectedGoalIds?.includes(goal.id) || false}

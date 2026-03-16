@@ -34,7 +34,7 @@ export function Recommendations() {
           setRecommendation(recData);
           setHistory(historyData);
         }
-      } catch (err) {
+      } catch (_err) {
         setError("Failed to load recommendations");
       } finally {
         setIsLoading(false);
@@ -54,7 +54,7 @@ export function Recommendations() {
       const newRec = await recommendationApi.generate(profile.id);
       setRecommendation(newRec);
       setHistory((prev) => [newRec, ...prev]);
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to generate recommendations");
     } finally {
       setIsGenerating(false);
@@ -217,8 +217,8 @@ export function Recommendations() {
             <fieldset className="recommendation-group recommendation-group--full">
               <legend>Beyond the Mat</legend>
               <p className="group-description">
-                Here are some ideas to support your goals — to fill in your
-                yoga practice and beyond that time on a mat.
+                Here are some ideas to support your goals — to fill in your yoga
+                practice and beyond that time on a mat.
               </p>
               <div className="styles-list">
                 {profile.goals.map((goal) => (

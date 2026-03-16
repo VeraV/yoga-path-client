@@ -32,9 +32,10 @@ export function PracticeLog() {
       if (!user) return;
 
       try {
+        // eslint-disable-next-line testing-library/no-await-sync-queries
         const data = await practiceLogApi.getByUserId(user.id);
         setLogs(data);
-      } catch (err) {
+      } catch (_err) {
         setError("Failed to load practice logs");
       } finally {
         setIsLoading(false);
@@ -61,7 +62,7 @@ export function PracticeLog() {
         minutesPracticed: 30,
         notes: "",
       });
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to add practice log");
     }
   };
@@ -72,7 +73,7 @@ export function PracticeLog() {
     try {
       await practiceLogApi.delete(logId);
       setLogs((prev) => prev.filter((log) => log.id !== logId));
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to delete practice log");
     }
   };
@@ -103,7 +104,9 @@ export function PracticeLog() {
                 })}
               />
               {errors.practiceDate && (
-                <span className="field-error">{errors.practiceDate.message}</span>
+                <span className="field-error">
+                  {errors.practiceDate.message}
+                </span>
               )}
             </div>
 
@@ -121,17 +124,15 @@ export function PracticeLog() {
                 })}
               />
               {errors.minutesPracticed && (
-                <span className="field-error">{errors.minutesPracticed.message}</span>
+                <span className="field-error">
+                  {errors.minutesPracticed.message}
+                </span>
               )}
             </div>
 
             <div>
               <label htmlFor="notes">Notes (optional)</label>
-              <textarea
-                id="notes"
-                rows={3}
-                {...practiceLog("notes")}
-              />
+              <textarea id="notes" rows={3} {...practiceLog("notes")} />
             </div>
 
             <button type="submit" disabled={isSubmitting}>
@@ -144,7 +145,9 @@ export function PracticeLog() {
         <fieldset className="practice-log-group">
           <legend>Practice History</legend>
           {logs.length === 0 ? (
-            <p className="empty-message">No practice sessions logged yet. Start tracking your yoga journey!</p>
+            <p className="empty-message">
+              No practice sessions logged yet. Start tracking your yoga journey!
+            </p>
           ) : (
             <div className="practice-log-list">
               {logs.map((log) => (
@@ -153,7 +156,9 @@ export function PracticeLog() {
                     <span className="log-date">
                       {new Date(log.practiceDate).toLocaleDateString()}
                     </span>
-                    <span className="log-minutes">{log.minutesPracticed} min</span>
+                    <span className="log-minutes">
+                      {log.minutesPracticed} min
+                    </span>
                     <button
                       className="btn-delete"
                       onClick={() => handleDelete(log.id)}

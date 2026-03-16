@@ -35,7 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const userData = await authApi.verify();
         setUser(userData);
-      } catch (error) {
+      } catch (_error) {
         // Token invalid or expired - clear it
         localStorage.removeItem("token");
       } finally {
