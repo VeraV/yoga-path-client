@@ -4,7 +4,13 @@ export function Home() {
   return (
     <div className="home-page">
       <section className="hero">
-        <img src="/logo.ico" alt="Yoga Path Logo" className="hero-logo" width={300} height={300} />
+        <img
+          src="/logo.ico"
+          alt="Yoga Path Logo"
+          className="hero-logo"
+          width={300}
+          height={300}
+        />
         <h1>Yoga Path</h1>
         <p>Your Personalized Practice Planner</p>
         <p>

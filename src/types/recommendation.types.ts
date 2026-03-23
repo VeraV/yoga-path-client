@@ -1,9 +1,4 @@
-export interface YogaStyle {
-  id: number;
-  name: string;
-  description: string;
-  notes: string;
-}
+import type { YogaStyle } from "./reference.types";
 
 export interface YogaRecommendationResponse {
   id: number;
