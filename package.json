@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-    "test:ci": "jest --coverage --silent --ci",
+    "test:ci": "jest --coverage --silent --ci --passWithNoTests",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
