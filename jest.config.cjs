@@ -15,6 +15,21 @@ module.exports = {
       "ts-jest",
       {
         tsconfig: "tsconfig.jest.json",
+        diagnostics: false,
+        astTransformers: {
+          before: [
+            {
+              path: "ts-jest-mock-import-meta",
+              options: {
+                metaObjectReplacement: {
+                  env: {
+                    VITE_API_URL: "http://localhost:8080/api",
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
     ],
   },
