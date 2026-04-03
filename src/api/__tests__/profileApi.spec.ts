@@ -38,6 +38,7 @@ describe("profileApi", () => {
 
       mockedApi.get.mockResolvedValue({ data: profileResponse });
 
+      // eslint-disable-next-line testing-library/no-await-sync-queries
       const result = await profileApi.getByUserId(1);
 
       expect(mockedApi.get).toHaveBeenCalledWith("/profiles/user/1");

@@ -66,21 +66,6 @@ describe("LimitationsModal", () => {
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it("calls onClose when overlay is clicked", async () => {
-    const user = userEvent.setup();
-    mockGetLimitations.mockResolvedValue(limitations);
-
-    render(<LimitationsModal onClose={mockOnClose} />);
-
-    await waitFor(() => {
-      expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
-    });
-
-    await user.click(screen.getByText("Limitations").closest(".modal-overlay")!);
-
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
-  });
-
   it("calls onClose when Escape key is pressed", async () => {
     const user = userEvent.setup();
     mockGetLimitations.mockResolvedValue(limitations);

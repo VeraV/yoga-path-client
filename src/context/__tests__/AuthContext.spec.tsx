@@ -1,4 +1,5 @@
-import { render, screen, act, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { authApi } from "../../api/authApi";
 
@@ -59,11 +60,11 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("loading").textContent).toBe("false");
+        expect(screen.getByTestId("loading")).toHaveTextContent("false");
       });
 
-      expect(screen.getByTestId("authenticated").textContent).toBe("false");
-      expect(screen.getByTestId("user").textContent).toBe("null");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("false");
+      expect(screen.getByTestId("user")).toHaveTextContent("null");
     });
   });
 
@@ -85,11 +86,11 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("loading").textContent).toBe("false");
+        expect(screen.getByTestId("loading")).toHaveTextContent("false");
       });
 
-      expect(screen.getByTestId("authenticated").textContent).toBe("true");
-      expect(screen.getByTestId("user").textContent).toBe("Test User");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("true");
+      expect(screen.getByTestId("user")).toHaveTextContent("Test User");
     });
 
     it("clears token and stays unauthenticated when token is invalid", async () => {
@@ -103,10 +104,10 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("loading").textContent).toBe("false");
+        expect(screen.getByTestId("loading")).toHaveTextContent("false");
       });
 
-      expect(screen.getByTestId("authenticated").textContent).toBe("false");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("false");
       expect(localStorage.getItem("token")).toBeNull();
     });
   });
@@ -128,16 +129,14 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("loading").textContent).toBe("false");
+        expect(screen.getByTestId("loading")).toHaveTextContent("false");
       });
 
-      await act(async () => {
-        screen.getByText("Login").click();
-      });
+      await userEvent.click(screen.getByText("Login"));
 
       expect(localStorage.getItem("token")).toBe("new-token");
-      expect(screen.getByTestId("authenticated").textContent).toBe("true");
-      expect(screen.getByTestId("user").textContent).toBe("Test User");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("true");
+      expect(screen.getByTestId("user")).toHaveTextContent("Test User");
     });
   });
 
@@ -158,16 +157,14 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("loading").textContent).toBe("false");
+        expect(screen.getByTestId("loading")).toHaveTextContent("false");
       });
 
-      await act(async () => {
-        screen.getByText("Register").click();
-      });
+      await userEvent.click(screen.getByText("Register"));
 
       expect(localStorage.getItem("token")).toBe("new-token");
-      expect(screen.getByTestId("authenticated").textContent).toBe("true");
-      expect(screen.getByTestId("user").textContent).toBe("Test");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("true");
+      expect(screen.getByTestId("user")).toHaveTextContent("Test");
     });
   });
 
@@ -189,16 +186,14 @@ describe("AuthContext", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId("authenticated").textContent).toBe("true");
+        expect(screen.getByTestId("authenticated")).toHaveTextContent("true");
       });
 
-      await act(async () => {
-        screen.getByText("Logout").click();
-      });
+      await userEvent.click(screen.getByText("Logout"));
 
       expect(localStorage.getItem("token")).toBeNull();
-      expect(screen.getByTestId("authenticated").textContent).toBe("false");
-      expect(screen.getByTestId("user").textContent).toBe("null");
+      expect(screen.getByTestId("authenticated")).toHaveTextContent("false");
+      expect(screen.getByTestId("user")).toHaveTextContent("null");
     });
   });
 

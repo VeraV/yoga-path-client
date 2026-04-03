@@ -113,7 +113,7 @@ describe("Header", () => {
       const user = userEvent.setup();
       renderHeader();
 
-      const nav = document.querySelector("nav")!;
+      const nav = screen.getByRole("navigation");
       expect(nav).not.toHaveClass("open");
 
       await user.click(screen.getByRole("button", { name: "Menu" }));

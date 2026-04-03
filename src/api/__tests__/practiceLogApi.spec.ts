@@ -28,6 +28,7 @@ describe("practiceLogApi", () => {
 
       mockedApi.get.mockResolvedValue({ data: logs });
 
+      // eslint-disable-next-line testing-library/no-await-sync-queries
       const result = await practiceLogApi.getByUserId(1);
 
       expect(mockedApi.get).toHaveBeenCalledWith("/practice-logs/user/1");
@@ -41,6 +42,7 @@ describe("practiceLogApi", () => {
 
       mockedApi.get.mockResolvedValue({ data: logs });
 
+      // eslint-disable-next-line testing-library/no-await-sync-queries
       const result = await practiceLogApi.getByDateRange(1, "2026-03-01", "2026-04-01");
 
       expect(mockedApi.get).toHaveBeenCalledWith("/practice-logs/user/1/range", {

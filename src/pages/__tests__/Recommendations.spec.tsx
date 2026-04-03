@@ -174,11 +174,13 @@ describe("Recommendations Page", () => {
         expect(screen.getByText("40")).toBeInTheDocument();
       });
 
+      /* eslint-disable testing-library/no-node-access */
       const items = document.querySelectorAll(".session-item");
       const getMinutes = (label: string) => {
         const item = Array.from(items).find((el) => el.querySelector(".item-label")?.textContent === label);
         return item?.querySelector(".item-value")?.textContent;
       };
+      /* eslint-enable testing-library/no-node-access */
 
       expect(getMinutes("Asana (exercises)")).toBe("20 min");
       expect(getMinutes("Pranayama (breathing)")).toBe("8 min");
