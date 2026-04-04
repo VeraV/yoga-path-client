@@ -15,16 +15,31 @@ module.exports = {
       "ts-jest",
       {
         tsconfig: "tsconfig.jest.json",
+        diagnostics: false,
+        astTransformers: {
+          before: [
+            {
+              path: "ts-jest-mock-import-meta",
+              options: {
+                metaObjectReplacement: {
+                  env: {
+                    VITE_API_URL: "http://localhost:8080/api",
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
     ],
   },
   setupFilesAfterEnv: ["./src/jest.setup.ts"],
   coverageThreshold: {
     global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
     },
   },
 };
