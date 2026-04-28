@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# Yoga Path — Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personalized yoga practice planner. Save your preferences and goals, get a session-by-session recommendation, and log every practice you finish.
 
-Currently, two official plugins are available:
+<!-- Drop a screenshot at ./public/screenshot.png and uncomment the next line -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Yoga Path](./public/screenshot.png)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Profile** — record weekly availability, session preferences (dynamic / static, structured / creative, philosophy openness), and goals.
+- **Recommendations** — generates a balanced session plan (asana, pranayama, meditation, relaxation, mantra) and matches yoga styles to your profile. Regenerate whenever your profile changes.
+- **Practice log** — record date, duration, and notes for each session; browse your history.
+- **Limitations modal** — informational reference of common health conditions and how they intersect with practice.
+- **Auth-aware UI** — the header and protected routes adapt to login state.
 
-## Expanding the ESLint configuration
+## Tech stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** + **TypeScript**
+- **Vite 7** — dev server and production build
+- **react-router-dom v7** — routing, with a `PrivateRoute` guard
+- **react-hook-form** — form state and validation
+- **axios** — shared instance with a JWT-injecting request interceptor and 401 redirect handling
+- **Sass** — styles (co-located and `src/styles/`)
+- **Jest** + **React Testing Library** + **ts-jest** — unit tests
+- **ESLint** + **Prettier** + **lint-staged** — pre-commit toolchain
+- **GitHub Actions** — CI (lint + tests on every PR)
+- **Vercel** — production hosting
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js **18, 20, or 22** (matches the CI matrix)
+- A running backend — see [yoga-path-server](https://github.com/VeraV/yoga-path-server). The client defaults to `http://localhost:8080/api`.
+
+### Install
+
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Configure (optional)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env` file at the repo root only if your backend isn't on the default port:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_API_URL=http://localhost:8080/api
+```
+
+### Run the dev server
+
+```sh
+npm run dev
+```
+
+Open <http://localhost:5173>.
+
+## Scripts
+
+| Command           | What it does                                          |
+| ----------------- | ----------------------------------------------------- |
+| `npm run dev`     | Vite dev server with HMR on port 5173                 |
+| `npm run build`   | Type-check (`tsc -b`) and produce a production bundle |
+| `npm run preview` | Preview the production build locally                  |
+| `npm run lint`    | Run ESLint                                            |
+| `npm test`        | Run the Jest suite                                    |
+| `npm run test:ci` | Same as `npm test` plus coverage and CI flags         |
+
+## Project structure
+
+```
+src/
+├── api/              Axios instance + per-domain API functions
+├── components/       layout/, guards/, common/
+├── context/          AuthContext (JWT + user state)
+├── pages/            Home, Login, Register, Dashboard, Profile, Recommendations, PracticeLog
+├── styles/           Sass stylesheets
+├── types/            TypeScript interfaces, barrel-exported from index.ts
+└── jest.setup.ts     Test environment setup
+```
+
+Routing lives in `src/App.tsx`. Public routes (`/`, `/login`, `/register`) and authenticated routes (everything else) are wrapped in `Layout`.
+
+## About authentication
+
+The app uses a stateless JWT flow:
+
+1. Register or log in → server issues a token.
+2. Token is stored in `localStorage` and attached to every request via the axios interceptor.
+3. On a 401 response (expired or invalid), the interceptor clears auth data and redirects to `/login`.
+
+> **Your email address is never sent anywhere or used for anything beyond sign-up itself.** There's no verification mail, no password reset, and no marketing. The form requires a syntactically valid email purely so the server has a unique identifier and the form can validate input. A placeholder address like `someone@example.com` works fine.
+
+## Testing
+
+```sh
+npm test                # full suite
+npx jest <path>         # single file
+npm run test:ci         # with coverage
+```
+
+Tests live next to source under `__tests__/`. Coverage threshold is enforced via `jest.config.cjs`.
+
+## Related repos
+
+- **Server:** [yoga-path-server](https://github.com/VeraV/yoga-path-server) — Spring Boot + JPA
+- **Specs:** [yoga-path-docs](https://github.com/VeraV/yoga-path-docs) — feature specifications
+
+## Deployment
+
+The `main` branch deploys to **Vercel** automatically. SPA routing falls back to `index.html` per `vercel.json`.
